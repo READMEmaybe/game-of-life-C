@@ -7,9 +7,6 @@
 
 #include <SDL2/SDL.h>
 
-
-
-
 #define WIDTH 1000
 #define HEIGHT 1000
 #define CELLWIDTH 10
