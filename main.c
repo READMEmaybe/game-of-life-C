@@ -1,7 +1,7 @@
 #include "gameOfLife.h"
 
 bool gameLoopRunning = true;
-int matrix[M][N] = { 0 };
+Uint8 matrix[M][N] = { 0 };
 bool leftMouseButtonDown = false;
 int k = 0;
 
@@ -19,7 +19,7 @@ void drawGrid(SDL_Surface* surface) {
     }
 }
 
-void drawMatrix(SDL_Surface* surface, int matrix[M][N]) {
+void drawMatrix(SDL_Surface* surface, Uint8 matrix[M][N]) {
     for(int i = 0; i < M; i++) {
         for(int j = 0; j < N; j++) {
             if(matrix[i][j]) {
@@ -76,7 +76,7 @@ void handleEvents() {
 
 int processGame(int k) {
     if (k > GAME_SPEED) {
-        int new_matrix[M][N] = { 0 };
+        Uint8 new_matrix[M][N] = { 0 };
         handleLogic(matrix, new_matrix);
         copyMatrix(matrix, new_matrix);
         return 0;

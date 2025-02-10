@@ -1,6 +1,6 @@
 #include "gameOfLife.h"
 
-void copyMatrix(int copy[M][N], int matrix[M][N]) {
+void copyMatrix(Uint8 copy[M][N], Uint8 matrix[M][N]) {
 	for (int i = 0; i < M; i++) {
 		for (int j = 0; j < N; j++)
 			copy[i][j] = matrix[i][j];
@@ -13,7 +13,7 @@ int isValidcell(int row, int col) {
 	return 1;
 }
 
-int countNeighbors(int rowIndex, int colIndex, int matrix[M][N]) {
+int countNeighbors(int rowIndex, int colIndex, Uint8 matrix[M][N]) {
 	int offset[8][2] = {
 		{-1,-1},
 		{-1,0},
@@ -34,7 +34,7 @@ int countNeighbors(int rowIndex, int colIndex, int matrix[M][N]) {
 	return sum;
 }
 
-void printMatrix(int matrix[M][N]) {
+void printMatrix(Uint8 matrix[M][N]) {
 	for(int i = 0; i < M; i++) {
 		for(int j = 0; j < N; j++)
 			printf("%d ", matrix[i][j]);
@@ -43,7 +43,7 @@ void printMatrix(int matrix[M][N]) {
 	printf("================================================\n");
 }
 
-void handleLogic(int matrix[M][N], int new_matrix[M][N]) {
+void handleLogic(Uint8 matrix[M][N], Uint8 new_matrix[M][N]) {
 
 	int count = 0;
 

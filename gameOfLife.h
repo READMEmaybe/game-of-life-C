@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #include <SDL2/SDL.h>
 
@@ -17,11 +18,11 @@
 #define M HEIGHT / CELLWIDTH
 #define N WIDTH / CELLWIDTH
 
-void copyMatrix(int copy[M][N], int matrix[M][N]);
+void copyMatrix(Uint8 copy[M][N], Uint8 matrix[M][N]);
+int countNeighbors(int rowIndex, int colIndex, Uint8 matrix[M][N]);
 int isValidcell(int row, int col);
-int countNeighbors(int rowIndex, int colIndex, int matrix[M][N]);
-void printMatrix(int matrix[M][N]);
-void handleLogic(int matrix[M][N], int new_matrix[M][N]);
+void printMatrix(Uint8 matrix[M][N]);
+void handleLogic(Uint8 matrix[M][N], Uint8 new_matrix[M][N]);
 
 
 #endif // GAMEOFLIFE_H_
