@@ -51,10 +51,10 @@ void handleEvents() {
                 if (event.button.button == SDL_BUTTON_LEFT) {
                     leftMouseButtonDown = true;
                     gamePaused = true;
-                        printf("Left mouse pressed at: %d, %d\n", event.button.x / CELLWIDTH, event.button.y / CELLWIDTH);
+//                      printf("Left mouse pressed at: %d, %d\n", event.button.x / CELLWIDTH, event.button.y / CELLWIDTH);
 //                  while(event.button.state == SDL_PRESSED)
 //                          printf("pressed\n"); 
-                    printf("pressed: %d\n", event.button.state);
+//                  printf("pressed: %d\n", event.button.state);
                     if(!isValidcell(event.button.y / CELLWIDTH,event.button.x / CELLWIDTH))
                         matrix[event.button.y / CELLWIDTH][event.button.x / CELLWIDTH] = 1;
                 }
@@ -62,17 +62,19 @@ void handleEvents() {
             case SDL_MOUSEBUTTONUP:
                 if (event.button.button == SDL_BUTTON_LEFT)
                     leftMouseButtonDown = false;
-                    gamePaused = false;
                 break;
             case SDL_MOUSEMOTION:
 //              printf("motion at: %d, %d\n", event.motion.x / CELLWIDTH, event.motion.y / CELLWIDTH);
                 if (leftMouseButtonDown) {
-                    printf("Left mouse still pressed at: %d, %d\n", event.motion.x / CELLWIDTH, event.motion.y / CELLWIDTH);
+//                  printf("Left mouse still pressed at: %d, %d\n", event.motion.x / CELLWIDTH, event.motion.y / CELLWIDTH);
                     k = 0;
                     if(!isValidcell(event.motion.y / CELLWIDTH,event.motion.x / CELLWIDTH))
                         matrix[event.motion.y / CELLWIDTH][event.motion.x / CELLWIDTH] = 1;
                 }
                 break;
+            case SDL_KEYUP:
+                if (event.key.keysym.sym == SDLK_SPACE)
+                    gamePaused = !gamePaused;
         }
     }
 }
