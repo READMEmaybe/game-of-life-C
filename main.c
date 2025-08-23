@@ -6,6 +6,13 @@ bool leftMouseButtonDown = false;
 bool gamePaused = false;
 int k = 0;
 
+void clearMatrix() {
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++)
+            matrix[i][j] = 0;
+    }
+}
+
 void drawGrid(SDL_Surface* surface) {
     int i;
     for(i = 0; i < (HEIGHT / CELLWIDTH); i++) {
@@ -75,6 +82,8 @@ void handleEvents() {
             case SDL_KEYUP:
                 if (event.key.keysym.sym == SDLK_SPACE)
                     gamePaused = !gamePaused;
+                if (event.key.keysym.sym == SDLK_r)
+                    clearMatrix();
         }
     }
 }
