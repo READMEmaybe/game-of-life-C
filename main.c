@@ -3,6 +3,7 @@
 bool gameLoopRunning = true;
 Uint8 matrix[M][N] = { 0 };
 bool leftMouseButtonDown = false;
+bool gamePaused = false;
 int k = 0;
 
 void drawGrid(SDL_Surface* surface) {
@@ -49,6 +50,7 @@ void handleEvents() {
             case SDL_MOUSEBUTTONDOWN:
                 if (event.button.button == SDL_BUTTON_LEFT) {
                     leftMouseButtonDown = true;
+                    gamePaused = true;
                         printf("Left mouse pressed at: %d, %d\n", event.button.x / CELLWIDTH, event.button.y / CELLWIDTH);
 //                  while(event.button.state == SDL_PRESSED)
 //                          printf("pressed\n"); 
@@ -60,6 +62,7 @@ void handleEvents() {
             case SDL_MOUSEBUTTONUP:
                 if (event.button.button == SDL_BUTTON_LEFT)
                     leftMouseButtonDown = false;
+                    gamePaused = false;
                 break;
             case SDL_MOUSEMOTION:
 //              printf("motion at: %d, %d\n", event.motion.x / CELLWIDTH, event.motion.y / CELLWIDTH);
@@ -75,7 +78,7 @@ void handleEvents() {
 }
 
 int processGame(int k) {
-    if (k > GAME_SPEED) {
+    if ((k > GAME_SPEED) && (!gamePaused)) {
         Uint8 new_matrix[M][N] = { 0 };
         handleLogic(matrix, new_matrix);
         copyMatrix(matrix, new_matrix);
