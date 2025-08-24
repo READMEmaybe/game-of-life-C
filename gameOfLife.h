@@ -13,7 +13,6 @@
 #define CELLWIDTH 10
 #define WHITE 0xffffffff
 #define GRAY 0x80808080
-#define GAME_SPEED 50
 
 #define M HEIGHT / CELLWIDTH
 #define N WIDTH / CELLWIDTH

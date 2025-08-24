@@ -4,7 +4,9 @@ bool gameLoopRunning = true;
 Uint8 matrix[M][N] = { 0 };
 bool leftMouseButtonDown = false;
 bool gamePaused = false;
-int k = 0;
+Uint32 k = 0;
+Uint32 speeds[12] = { 1, 5, 11, 23, 32, 41, 59, 74, 107, 257, 452, 500 };
+Uint32 speed = 6;
 
 void clearMatrix() {
     for (int i = 0; i < M; i++) {
@@ -84,12 +86,17 @@ void handleEvents() {
                     gamePaused = !gamePaused;
                 if (event.key.keysym.sym == SDLK_r)
                     clearMatrix();
+                if (event.key.keysym.sym == SDLK_UP)
+                    speed = (speed < 11) ? speed + 1 : speed;
+                if (event.key.keysym.sym == SDLK_DOWN)
+                    speed = (speed > 0) ? speed - 1: speed;
+                printf("Speed: %d\n", speeds[speed]);
         }
     }
 }
 
-int processGame(int k) {
-    if ((k > GAME_SPEED) && (!gamePaused)) {
+Uint32 processGame(Uint32 k) {
+    if ((k > speeds[speed]) && (!gamePaused)) {
         Uint8 new_matrix[M][N] = { 0 };
         handleLogic(matrix, new_matrix);
         copyMatrix(matrix, new_matrix);
@@ -120,7 +127,6 @@ int main() {
 
     SDL_UpdateWindowSurface(window);
 
-    SDL_Event Event;
     while (gameLoopRunning)
     {       
         handleEvents();
