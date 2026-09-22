@@ -49,7 +49,6 @@ void clearSurface(SDL_Surface* surface) {
 
 void handleEvents() {
     SDL_Event event;
-//  SDL_WaitEvent(&event);
     while(SDL_PollEvent(&event)) {
         switch (event.type)
         {
@@ -60,10 +59,6 @@ void handleEvents() {
                 if (event.button.button == SDL_BUTTON_LEFT) {
                     leftMouseButtonDown = true;
                     gamePaused = true;
-//                      printf("Left mouse pressed at: %d, %d\n", event.button.x / CELLWIDTH, event.button.y / CELLWIDTH);
-//                  while(event.button.state == SDL_PRESSED)
-//                          printf("pressed\n"); 
-//                  printf("pressed: %d\n", event.button.state);
                     if(!isValidcell(event.button.y / CELLWIDTH,event.button.x / CELLWIDTH))
                         matrix[event.button.y / CELLWIDTH][event.button.x / CELLWIDTH] = 1;
                 }
@@ -73,24 +68,31 @@ void handleEvents() {
                     leftMouseButtonDown = false;
                 break;
             case SDL_MOUSEMOTION:
-//              printf("motion at: %d, %d\n", event.motion.x / CELLWIDTH, event.motion.y / CELLWIDTH);
                 if (leftMouseButtonDown) {
-//                  printf("Left mouse still pressed at: %d, %d\n", event.motion.x / CELLWIDTH, event.motion.y / CELLWIDTH);
                     k = 0;
                     if(!isValidcell(event.motion.y / CELLWIDTH,event.motion.x / CELLWIDTH))
                         matrix[event.motion.y / CELLWIDTH][event.motion.x / CELLWIDTH] = 1;
                 }
                 break;
             case SDL_KEYUP:
-                if (event.key.keysym.sym == SDLK_SPACE)
-                    gamePaused = !gamePaused;
-                if (event.key.keysym.sym == SDLK_r)
-                    clearMatrix();
-                if (event.key.keysym.sym == SDLK_UP)
-                    speed = (speed < 11) ? speed + 1 : speed;
-                if (event.key.keysym.sym == SDLK_DOWN)
-                    speed = (speed > 0) ? speed - 1: speed;
-                printf("Speed: %d\n", speeds[speed]);
+                switch (event.key.keysym.sym) {
+                    case SDLK_SPACE:
+                        gamePaused = !gamePaused;
+                        break;
+                    case SDLK_r:
+                        clearMatrix();
+                        break;
+                    case SDLK_UP:
+                        speed = (speed < 11) ? speed + 1 : speed;
+                        printf("Speed: %d\n", speeds[speed]);
+                        break;
+                    case SDLK_DOWN:
+                        speed = (speed > 0) ? speed - 1 : speed;
+                        printf("Speed: %d\n", speeds[speed]);
+                        break;
+                    default:
+                        break;
+                }
         }
     }
 }
@@ -146,7 +148,6 @@ int main() {
         if (!updateSurface(window))
             gameLoopRunning = false;
         k++;
-//      SDL_Delay(500);
     }
     SDL_DestroyWindow(window);
     SDL_Quit();
