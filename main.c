@@ -29,10 +29,10 @@ void drawGrid(SDL_Surface* surface) {
     }
 }
 
-void drawMatrix(SDL_Surface* surface, Uint8 matrix[M][N]) {
+void drawMatrix(SDL_Surface* surface, Uint8 grid[M][N]) {
     for(int i = 0; i < M; i++) {
         for(int j = 0; j < N; j++) {
-            if(matrix[i][j]) {
+            if(grid[i][j]) {
                 SDL_Rect rect = (SDL_Rect) {j*CELLWIDTH,i*CELLWIDTH,CELLWIDTH,CELLWIDTH};
                 if (SDL_FillRect(surface, &rect, WHITE))
                     printf("Error drawing matrix: %s\n", SDL_GetError());
@@ -95,14 +95,14 @@ void handleEvents() {
     }
 }
 
-Uint32 processGame(Uint32 k) {
-    if ((k > speeds[speed]) && (!gamePaused)) {
+Uint32 processGame(Uint32 ticks) {
+    if ((ticks > speeds[speed]) && (!gamePaused)) {
         Uint8 new_matrix[M][N] = { 0 };
         handleLogic(matrix, new_matrix);
         copyMatrix(matrix, new_matrix);
         return 0;
     } else
-        return k;
+        return ticks;
 }
 
 void updateSurface(SDL_Window* window, SDL_Surface* surface) {
