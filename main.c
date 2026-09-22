@@ -105,27 +105,37 @@ Uint32 processGame(Uint32 ticks) {
         return ticks;
 }
 
-void updateSurface(SDL_Window* window, SDL_Surface* surface) {
+bool updateSurface(SDL_Window* window) {
 
-    surface = SDL_GetWindowSurface(window);
+    SDL_Surface* surface = SDL_GetWindowSurface(window);
+    if (surface == NULL) {
+        fprintf(stderr, "Error getting window surface: %s\n", SDL_GetError());
+        return false;
+    }
     clearSurface(surface);
     drawGrid(surface);
     drawMatrix(surface, matrix);
-    if (SDL_UpdateWindowSurface(window))
-        printf("Error Updating window: %s\n", SDL_GetError());
+    if (SDL_UpdateWindowSurface(window) != 0) {
+        fprintf(stderr, "Error updating window: %s\n", SDL_GetError());
+        return false;
+    }
+
+    return true;
 
 }
 
 int main() {
-    SDL_Init(SDL_INIT_VIDEO);
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        fprintf(stderr, "Error initializing SDL: %s\n", SDL_GetError());
+        return 1;
+    }
 
     SDL_Window* window = SDL_CreateWindow( "Test window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
-
-    SDL_Surface* surface = SDL_GetWindowSurface(window);
-
-    drawGrid(surface);
-
-    SDL_UpdateWindowSurface(window);
+    if (window == NULL) {
+        fprintf(stderr, "Error creating window: %s\n", SDL_GetError());
+        SDL_Quit();
+        return 1;
+    }
 
     while (gameLoopRunning)
     {       
@@ -133,10 +143,12 @@ int main() {
 
         k = processGame(k);
 
-        updateSurface(window, surface);
+        if (!updateSurface(window))
+            gameLoopRunning = false;
         k++;
 //      SDL_Delay(500);
     }
+    SDL_DestroyWindow(window);
     SDL_Quit();
 
     return 0;
